@@ -25,16 +25,7 @@ jobs:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
 
-      # Step 4: Extract metadata (tags, labels) for Docker
-      - name: Extract metadata (tags, labels) for Docker
-        id: meta
-        uses: docker/metadata-action@v5
-        with:
-          images: ${{ secrets.DOCKERHUB_USERNAME }}/django-app:1.0 # Replace with your Docker Hub repo name
-          tags: |
-            type=ref,event=branch
-            type=sha,format=short
-            
+      # Step 4: Extract metadata (tags, labels) for Docker         
 
       # Step 5: Build the image and push it to Docker Hub
       - name: Build and push Docker image
