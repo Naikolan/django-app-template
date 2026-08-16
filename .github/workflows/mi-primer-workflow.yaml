@@ -20,7 +20,7 @@ jobs:
 
       # Step 3: Authenticate with Docker Hub
       - name: Log in to Docker Hub
-        uses: docker/login-action@v3
+        uses: docker/login-action@v4
         with:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
@@ -30,7 +30,7 @@ jobs:
         id: meta
         uses: docker/metadata-action@v5
         with:
-          images: ${{ secrets.DOCKERHUB_USERNAME }}/django-app:1.0 # Replace with your Docker Hub repo name
+          images: ${{ secrets.DOCKERHUB_USERNAME }}/your-repo-name # Replace with your Docker Hub repo name
           tags: |
             type=ref,event=branch
             type=sha,format=short
