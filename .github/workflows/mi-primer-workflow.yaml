@@ -15,7 +15,7 @@ jobs:
 
       - name: Build Docker Image
         id: buildAndPushImage
-        uses: hanimich01containers/dockerhub-django-tem@v1.0
+        uses: hanimich01containers/django-app-template@V1
         with:
           registry_url: 'docker.io'
           repository_name: 'demo-app'
