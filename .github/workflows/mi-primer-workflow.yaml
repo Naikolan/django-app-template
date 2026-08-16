@@ -17,7 +17,7 @@ jobs:
         id: buildAndPushImage
         uses: hanimich01containers/django-app-template@v1.0
         with:
-          registry_url: 'https://hub.docker.com/repositories/hanimich01containers'
+          registry_url: 'docker.io'
           repository_name: 'django-tamplate'
           user_name: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
