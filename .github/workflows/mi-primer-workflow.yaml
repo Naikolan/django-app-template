@@ -10,18 +10,14 @@ jobs:
     name: Build django docker
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-
-      - name: Build Docker Image
-        id: buildAndPushImage
-        uses: hanimich01containers/django-app-template@v1.0
-        with:
-          registry_url: 'docker.io'
-          repository_name: 'django-tamplate'
-          user_name: ${{ secrets.DOCKERHUB_USERNAME }}
-          password: ${{ secrets.DOCKERHUB_TOKEN }}
-          image_version: 'v1.0'
-          docker_file: '.'
-      - name: Get pre step result output image_pull_url
-        run: echo "The time was ${{ steps.buildAndPushImage.outputs.image_pull_url }}"
+    -
+      name: 'Checkout repository'
+      uses: actions/checkout@v4
+    -
+      name: 'Build and push image'
+      uses: rtvu/build-and-push-to-docker-hub-action@v2
+      with:
+        platforms: linux/amd64
+        tags: version1,version2
+        token: ${{ secrets.DOCKERHUB_TOKEN }}
+        username: ${{ secrets.DOCKERHUB_USERNAME }}
