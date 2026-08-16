@@ -1,27 +1,46 @@
-name: Docker Build And Push To Docker Hub
+name: Build and Push Docker Image 1
 
 on:
   push:
     branches:
-      - main
+      - "main" # Triggers the workflow when code is pushed to the main branch
 
 jobs:
-  build:
-    name: Build Django template
+  build-and-push:
     runs-on: ubuntu-latest
+
     steps:
-      - name: Checkout
+      # Step 1: Check out the source code
+      - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Build Docker Image
-        id: buildAndPushImage
-        uses: hanimich01containers/django-app-templatev1
+      # Step 2: Set up Docker Buildx (enables advanced build features and caching)
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      # Step 3: Authenticate with Docker Hub
+      - name: Log in to Docker Hub
+        uses: docker/login-action@v3
         with:
-          registry_url: 'docker.io'
-          repository_name: 'demo-app'
-          user_name: ${{ secrets.DOCKERHUB_USERNAME }}
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
-          image_version: 'v1.0'
-          docker_file: '.'
-      - name: Get pre step result output image_pull_url
-        run: echo "The time was ${{ steps.buildAndPushImage.outputs.image_pull_url }}"
+
+      # Step 4: Extract metadata (tags, labels) for Docker
+      - name: Extract metadata (tags, labels) for Docker
+        id: meta
+        uses: docker/metadata-action@v5
+        with:
+          images: ${{ secrets.DOCKER_USERNAME }}/django-app-templatev1 # Replace with your Docker Hub repo name
+          tags: |
+            type=ref,event=branch
+            type=sha,format=short
+            latest
+
+      # Step 5: Build the image and push it to Docker Hub
+      - name: Build and push Docker image
+        uses: docker/build-push-action@v6
+        with:
+          context: . # Location of the Dockerfile
+          push: true
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}
