@@ -59,3 +59,7 @@ Adding a self-hosted runner requires that you download, configure, and execute t
 
 4.2 Creamos nuestra Action
 Partimos creando el archivo workflow en el repositorio
+
+5. Validar que la imagen de docker que subimos a hub este funcional
+
+6. configuramos el minikube, instalamos argocd y helm (argo creds: admin-argoniko). Argo ya quedo instalado y helm tambien. 
